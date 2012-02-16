@@ -1,0 +1,3 @@
+Kernel for the Hantek DSO oscilloscope. So far only some modules
+are confirmed to be working. Use one of two config_tft640x480
+and config_tft800x600 for your builds.
