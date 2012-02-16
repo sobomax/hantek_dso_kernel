@@ -1,0 +1,55 @@
+How to get the Nebula Electronics DigiTV, Pinnacle PCTV Sat, Twinhan DST + clones working
+=========================================================================================
+
+1) General information
+======================
+
+This class of cards has a bt878a chip as the PCI interface.
+The different card drivers require the bttv driver to provide the means
+to access the i2c bus and the gpio pins of the bt8xx chipset.
+
+2) Compilation rules for Kernel >= 2.6.12
+=========================================
+
+Enable the following options:
+
+"Device drivers" => "Multimedia devices"
+ => "Video For Linux" => "BT848 Video For Linux"
+"Device drivers" => "Multimedia devices" => "Digital Video Broadcasting Devices"
+ => "DVB for Linux" "DVB Core Support" "Nebula/Pinnacle PCTV/TwinHan PCI Cards"
+
+3) Loading Modules, described by two approaches
+===============================================
+
+In general you need to load the bttv driver, which will handle the gpio and
+i2c communication for us, plus the common dvb-bt8xx device driver,
+which is called the backend.
+The frontends for Nebula DigiTV (nxt6000), Pinnacle PCTV Sat (cx24110),
+TwinHan DST + clones (dst and dst-ca) are loaded automatically by the backend.
+For further details about TwinHan DST + clones see /Documentation/dvb/ci.txt.
+
+3a) The manual approach
+-----------------------
+
+Loading modules:
+modprobe bttv
+modprobe dvb-bt8xx
+
+Unloading modules:
+modprobe -r dvb-bt8xx
+modprobe -r bttv
+
+3b) The automatic approach
+--------------------------
+
+If not already done by installation, place a line either in
+/etc/modules.conf or in /etc/modprobe.conf containing this text:
+alias char-major-81	bttv
+
+Then place a line in /etc/modules containing this text:
+dvb-bt8xx
+
+Reboot your system and have fun!
+
+--
+Authors: Richard Walker, Jamie Honan, Michael Hunold, Manu Abraham, Uwe Bugla
