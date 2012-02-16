@@ -456,7 +456,7 @@ static int kaweth_trigger_firmware(struct kaweth_device *kaweth,
  ****************************************************************/
 static int kaweth_reset(struct kaweth_device *kaweth)
 {
-	int result;
+	int result, i;
 
 	kaweth_dbg("kaweth_reset(%p)", kaweth);
 	result = kaweth_control(kaweth,
@@ -469,7 +469,7 @@ static int kaweth_reset(struct kaweth_device *kaweth)
 				0,
 				KAWETH_CONTROL_TIMEOUT);
 
-	udelay(10000);
+	for (i = 0; i < 10; i++) udelay(1000);
 
 	kaweth_dbg("kaweth_reset() returns %d.",result);
 
